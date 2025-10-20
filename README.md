@@ -5,7 +5,7 @@
 ### Your very first own library
 
 <p>
-  <img src="https://img.shields.io/badge/Score-125%2F100-success?style=for-the-badge&logo=42" alt="42 Score"/>
+  <img src="https://img.shields.io/badge/Score-114%2F100-success?style=for-the-badge&logo=42" alt="42 Score"/>
   <img src="https://img.shields.io/badge/Language-C-00599C?style=for-the-badge&logo=c&logoColor=white" alt="Language"/>
   <img src="https://img.shields.io/github/license/Z3n42/42_libft?style=for-the-badge" alt="License"/>
   <img src="https://img.shields.io/badge/42-Urduliz-000000?style=for-the-badge&logo=42&logoColor=white" alt="42 Urduliz"/>
@@ -13,7 +13,7 @@
 
 *A complete reimplementation of essential C standard library functions, plus additional utilities for future 42 projects.*
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Functions](#-functions) • [Testing](#-testing)
+[Features](#-features) • [Installation](#%EF%B8%8F-installation) • [Usage](#-usage) • [Function Reference](#-function-reference) • [Testing](#-testing)
 
 </div>
 
@@ -23,7 +23,7 @@
 
 - [About the Project](#-about-the-project)
 - [Features](#-features)
-- [Installation](#-installation)
+- [Installation](#%EF%B8%8F-installation)
 - [Usage](#-usage)
 - [Function Reference](#-function-reference)
   - [Part 1: Libc Functions](#part-1-libc-functions)
