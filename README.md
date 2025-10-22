@@ -89,7 +89,7 @@ After running `make`, you'll have a `libft.a` static library ready to use.
 
 ## 🚀 Usage
 
-### Including in Your Project
+### Including in Project
 
 1. **Copy libft to your project directory:**
 ```bash
@@ -326,7 +326,7 @@ typedef struct s_list
 
 ### Makefile Details
 
-Your Makefile implements the following structure:
+Makefile implements the following structure:
 
 ```makefile
 NAME = libft.a
@@ -360,7 +360,7 @@ OBJS_B = *.o files from FILES_B
 
 ### Included Test Suites
 
-Your repository includes **two testing frameworks** in the `Tests/` directory:
+Repository includes **two testing frameworks** in the `Tests/` directory:
 
 #### 1. Libtests
 ```bash
