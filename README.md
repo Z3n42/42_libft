@@ -7,13 +7,13 @@
 <p>
   <img src="https://img.shields.io/badge/Score-114%2F100-success?style=for-the-badge&logo=42" alt="42 Score"/>
   <img src="https://img.shields.io/badge/Language-C-00599C?style=for-the-badge&logo=c&logoColor=white" alt="Language"/>
-  <img src="https://img.shields.io/github/license/Z3n42/42_libft?style=for-the-badge" alt="License"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"/>
   <img src="https://img.shields.io/badge/42-Urduliz-000000?style=for-the-badge&logo=42&logoColor=white" alt="42 Urduliz"/>
 </p>
 
-*A complete reimplementation of essential C standard library functions, plus additional utilities for future 42 projects.*
+*A complete reimplementation of essential C standard library functions, plus additional utilities and bonus linked list functions.*
 
-[Features](#-features) • [Installation](#%EF%B8%8F-installation) • [Usage](#-usage) • [Function Reference](#-function-reference) • [Testing](#-testing)
+[Installation](#%EF%B8%8F-installation) • [Usage](#-usage) • [Function Reference](#-function-reference) • [Testing](#-testing)
 
 </div>
 
@@ -22,7 +22,6 @@
 ## 📋 Table of Contents
 
 - [About the Project](#-about-the-project)
-- [Features](#-features)
 - [Installation](#%EF%B8%8F-installation)
 - [Usage](#-usage)
 - [Function Reference](#-function-reference)
@@ -32,7 +31,6 @@
 - [Project Structure](#-project-structure)
 - [Testing](#-testing)
 - [What I Learned](#-what-i-learned)
-- [Norm Compliance](#-norm-compliance)
 - [License](#-license)
 
 ---
@@ -48,56 +46,9 @@ C programming without access to standard library functions can be challenging. T
 - **String and character handling** operations
 - **Linked list** data structures and algorithms
 - **Low-level programming** concepts
-- **Code organization** and library creation
+- **Code organization** and library creation with Makefiles
 
 The completed library becomes a personal toolkit that can be expanded and reused throughout the 42 curriculum.
-
----
-
-## ✨ Features
-
-<table>
-<tr>
-<td width="50%">
-
-### 🔧 Standard Library Functions
-- String manipulation (`strlen`, `strcpy`, `strdup`, etc.)
-- Memory operations (`memset`, `memcpy`, `memmove`, etc.)
-- Character checks (`isalpha`, `isdigit`, `isascii`, etc.)
-- Type conversions (`atoi`, `itoa`)
-
-</td>
-<td width="50%">
-
-### 🚀 Additional Utilities
-- String operations (`substr`, `strjoin`, `strtrim`, `split`)
-- File descriptor output functions
-- Memory allocation with `calloc`
-- Function mapping and iteration
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### 🔗 Bonus: Linked Lists
-- Node creation and deletion
-- List traversal and manipulation
-- Iteration and mapping functions
-- Dynamic list management
-
-</td>
-<td width="50%">
-
-### 📦 Compiled Library
-- Static library `libft.a`
-- Makefile with standard rules
-- Clean compilation (no relink)
-- Header file with all prototypes
-
-</td>
-</tr>
-</table>
 
 ---
 
@@ -142,7 +93,7 @@ After running `make`, you'll have a `libft.a` static library ready to use.
 
 1. **Copy libft to your project directory:**
 ```bash
-cp -r libft/ your_project/
+cp libft.a libft.h your_project/
 ```
 
 2. **Include the header in your C files:**
@@ -152,14 +103,13 @@ cp -r libft/ your_project/
 
 3. **Compile your project with libft:**
 ```bash
-gcc -Wall -Wextra -Werror your_file.c -L./libft -lft -o your_program
+gcc -Wall -Wextra -Werror your_file.c -L. -lft -o your_program
 ```
 
 ### Example Program
 
 ```c
 #include "libft.h"
-#include <stdio.h>
 
 int main(void)
 {
@@ -187,7 +137,7 @@ int main(void)
 
 **Compile and run:**
 ```bash
-gcc example.c -L. -lft -o example
+gcc -Wall -Wextra -Werror example.c -L. -lft -o example
 ./example
 ```
 
@@ -197,17 +147,17 @@ gcc example.c -L. -lft -o example
 
 ### Part 1: Libc Functions
 
-Functions that replicate standard C library behavior:
+Functions that replicate standard C library behavior (34 functions):
 
 <details>
-<summary><b>Character Classification (7 functions)</b></summary>
+<summary><b>Character Classification & Conversion (7 functions)</b></summary>
 
 | Function | Description | Prototype |
 |----------|-------------|-----------|
 | `ft_isalpha` | Checks if character is alphabetic | `int ft_isalpha(int c)` |
 | `ft_isdigit` | Checks if character is a digit | `int ft_isdigit(int c)` |
 | `ft_isalnum` | Checks if character is alphanumeric | `int ft_isalnum(int c)` |
-| `ft_isascii` | Checks if character is ASCII | `int ft_isascii(int c)` |
+| `ft_isascii` | Checks if character is ASCII (0-127) | `int ft_isascii(int c)` |
 | `ft_isprint` | Checks if character is printable | `int ft_isprint(int c)` |
 | `ft_toupper` | Converts character to uppercase | `int ft_toupper(int c)` |
 | `ft_tolower` | Converts character to lowercase | `int ft_tolower(int c)` |
@@ -232,13 +182,14 @@ Functions that replicate standard C library behavior:
 </details>
 
 <details>
-<summary><b>Memory Functions (9 functions)</b></summary>
+<summary><b>Memory Functions (7 functions)</b></summary>
 
 | Function | Description | Prototype |
 |----------|-------------|-----------|
 | `ft_memset` | Fills memory with a constant byte | `void *ft_memset(void *s, int c, size_t n)` |
 | `ft_bzero` | Zeroes a byte string | `void ft_bzero(void *s, size_t n)` |
 | `ft_memcpy` | Copies memory area | `void *ft_memcpy(void *dest, const void *src, size_t n)` |
+| `ft_memccpy` | Copies memory until character found | `void *ft_memccpy(void *dest, const void *src, int c, size_t n)` |
 | `ft_memmove` | Copies memory area (handles overlap) | `void *ft_memmove(void *dest, const void *src, size_t n)` |
 | `ft_memchr` | Scans memory for a character | `void *ft_memchr(const void *s, int c, size_t n)` |
 | `ft_memcmp` | Compares memory areas | `int ft_memcmp(const void *s1, const void *s2, size_t n)` |
@@ -248,10 +199,10 @@ Functions that replicate standard C library behavior:
 
 ### Part 2: Additional Functions
 
-Custom functions not present in the standard library:
+Custom functions not present in the standard library (7 functions):
 
 <details>
-<summary><b>String Utilities (9 functions)</b></summary>
+<summary><b>String Utilities & Conversions</b></summary>
 
 | Function | Description | Prototype |
 |----------|-------------|-----------|
@@ -261,12 +212,11 @@ Custom functions not present in the standard library:
 | `ft_split` | Splits string by delimiter into array | `char **ft_split(char const *s, char c)` |
 | `ft_itoa` | Converts integer to string | `char *ft_itoa(int n)` |
 | `ft_strmapi` | Applies function to each character (indexed) | `char *ft_strmapi(char const *s, char (*f)(unsigned int, char))` |
-| `ft_striteri` | Applies function to each character (in-place) | `void ft_striteri(char *s, void (*f)(unsigned int, char*))` |
 
 </details>
 
 <details>
-<summary><b>Output Functions (4 functions)</b></summary>
+<summary><b>File Descriptor Output Functions (4 functions)</b></summary>
 
 | Function | Description | Prototype |
 |----------|-------------|-----------|
@@ -282,7 +232,7 @@ Custom functions not present in the standard library:
 <details>
 <summary><b>List Manipulation (9 functions)</b></summary>
 
-**List structure:**
+**List structure defined in `libft.h`:**
 ```c
 typedef struct s_list
 {
@@ -311,71 +261,167 @@ typedef struct s_list
 
 ```
 42_libft/
-├── 📄 Makefile              # Compilation rules
-├── 📄 libft.h               # Header file with function prototypes
-├── 📂 src/                  # Source files (if organized)
-│   ├── ft_isalpha.c
-│   ├── ft_strlen.c
+├── 📄 LICENSE                # MIT License
+├── 📄 Makefile               # Build configuration
+├── 📄 libft.h                # Header with prototypes and t_list struct
+├── 📄 README.md              # This file
+│
+├── 📂 Mandatory Part (34 .c files)
+│   ├── ft_isalpha.c         # Character checks
+│   ├── ft_isdigit.c
+│   ├── ft_isalnum.c
+│   ├── ft_isascii.c
+│   ├── ft_isprint.c
+│   ├── ft_toupper.c
+│   ├── ft_tolower.c
+│   ├── ft_strlen.c          # String operations
+│   ├── ft_strlcpy.c
+│   ├── ft_strlcat.c
+│   ├── ft_strchr.c
+│   ├── ft_strrchr.c
+│   ├── ft_strncmp.c
+│   ├── ft_strnstr.c
+│   ├── ft_strdup.c
+│   ├── ft_atoi.c
+│   ├── ft_memset.c          # Memory operations
+│   ├── ft_bzero.c
 │   ├── ft_memcpy.c
-│   └── ...
-├── 📂 bonus/                # Bonus linked list functions
-│   ├── ft_lstnew_bonus.c
-│   ├── ft_lstadd_front_bonus.c
-│   └── ...
-└── 📄 README.md             # This file
+│   ├── ft_memccpy.c
+│   ├── ft_memmove.c
+│   ├── ft_memchr.c
+│   ├── ft_memcmp.c
+│   ├── ft_calloc.c
+│   ├── ft_substr.c          # Additional utilities
+│   ├── ft_strjoin.c
+│   ├── ft_strtrim.c
+│   ├── ft_split.c
+│   ├── ft_itoa.c
+│   ├── ft_strmapi.c
+│   ├── ft_putchar_fd.c      # File descriptor output
+│   ├── ft_putstr_fd.c
+│   ├── ft_putendl_fd.c
+│   └── ft_putnbr_fd.c
+│
+├── 📂 Bonus Part (9 .c files)
+│   ├── ft_lstnew.c
+│   ├── ft_lstadd_front.c
+│   ├── ft_lstsize.c
+│   ├── ft_lstlast.c
+│   ├── ft_lstadd_back.c
+│   ├── ft_lstdelone.c
+│   ├── ft_lstclear.c
+│   ├── ft_lstiter.c
+│   └── ft_lstmap.c
+│
+├── 📂 Tests/                 # Testing utilities (not graded)
+│   ├── Libtests/            # Custom test suite
+│   └── libft-unit-test/     # External unit tests
+│
+└── 📂 libftmain/            # Individual test mains for each function
+    ├── atoimain.c
+    ├── bzero main.c
+    ├── memchrmain.c
+    └── ...                  # 40+ test programs
 ```
 
-### Makefile Rules
+### Makefile Details
 
-| Rule | Description |
-|------|-------------|
-| `make` or `make all` | Compiles mandatory functions into `libft.a` |
-| `make bonus` | Compiles mandatory + bonus functions |
-| `make clean` | Removes object files (`.o`) |
-| `make fclean` | Removes object files and `libft.a` |
-| `make re` | Cleans and recompiles everything |
+Your Makefile implements the following structure:
+
+```makefile
+NAME = libft.a
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+AR = ar rcs
+
+FILES = ft_memset ft_strrchr ft_putchar_fd ... (34 functions)
+FILES_B = ft_lstnew ft_lstadd_front ... (9 functions)
+
+OBJS = *.o files from FILES
+OBJS_B = *.o files from FILES_B
+```
+
+### Make Rules
+
+| Rule | Action |
+|------|--------|
+| `make` / `make all` | Compiles 34 mandatory functions → `libft.a` |
+| `make bonus` | Compiles 9 bonus functions and adds to `libft.a` |
+| `make clean` | Removes all `.o` object files |
+| `make fclean` | Removes `.o` files and `libft.a` |
+| `make re` | Equivalent to `make fclean` + `make all` |
+
+**Compilation flags:** `-Wall -Wextra -Werror` (all warnings as errors)  
+**Archiver:** `ar rcs libft.a *.o` (creates static library)
 
 ---
 
 ## 🧪 Testing
 
-### Recommended Testers
+### Included Test Suites
 
-I tested my libft thoroughly with several popular testers from the 42 community:
+Your repository includes **two testing frameworks** in the `Tests/` directory:
 
-- **[libft-unit-test](https://github.com/alelievr/libft-unit-test)** by alelievr
-- **[libftTester](https://github.com/Tripouille/libftTester)** by Tripouille
-- **[Francinette](https://github.com/xicodomingues/francinette)** (comprehensive tester)
-
-### Running Tests
-
+#### 1. Libtests
 ```bash
-# Clone a tester (example: Tripouille)
-git clone https://github.com/Tripouille/libftTester.git
-cd libftTester
+cd Tests/Libtests
+./grademe.sh
+```
 
-# Run tests
+#### 2. libft-unit-test (alelievr)
+```bash
+cd Tests/libft-unit-test
 make
 ```
 
-### Manual Testing Example
+### Individual Function Tests
+
+The `libftmain/` directory contains **40+ individual test programs** for manual testing:
+
+```bash
+# Example: Test ft_atoi
+gcc -Wall -Wextra -Werror libftmain/atoimain.c ft_atoi.c -o test_atoi
+./test_atoi
+
+# Example: Test ft_split
+gcc -Wall -Wextra -Werror libftmain/splitmain.c ft_split.c libft.a -o test_split
+./test_split
+```
+
+### Recommended External Testers
+
+- **[Francinette](https://github.com/xicodomingues/francinette)** - Comprehensive 42 tester
+- **[libftTester](https://github.com/Tripouille/libftTester)** - Popular libft validator
+
+```bash
+# Using Francinette
+bash -c "$(curl -fsSL https://raw.github.com/xicodomingues/francinette/master/bin/install.sh)"
+cd ~/42_libft && francinette
+
+# Using Tripouille's tester
+git clone https://github.com/Tripouille/libftTester.git
+cd libftTester && make
+```
+
+### Quick Manual Test
 
 ```c
-// test.c
+// test_libft.c
 #include "libft.h"
 #include <stdio.h>
 
 int main(void)
 {
-    // Test ft_strlen
-    printf("ft_strlen(\"Hello\"): %zu\n", ft_strlen("Hello"));
+    // Test string functions
+    printf("ft_strlen("Hello"): %zu\n", ft_strlen("Hello"));
 
-    // Test ft_strjoin
-    char *joined = ft_strjoin("Hello", " World");
-    printf("ft_strjoin: %s\n", joined);
-    free(joined);
+    // Test memory functions
+    char str[20];
+    ft_memset(str, 'A', 10);
+    str[10] = '\0';
+    printf("ft_memset result: %s\n", str);
 
-    // Test ft_split
+    // Test split
     char **words = ft_split("one,two,three", ',');
     int i = 0;
     while (words[i])
@@ -385,8 +431,20 @@ int main(void)
     }
     free(words);
 
+    // Test linked list (bonus)
+    t_list *node = ft_lstnew("Hello");
+    printf("List node content: %s\n", (char *)node->content);
+    free(node);
+
     return (0);
 }
+```
+
+**Compile and run:**
+```bash
+make bonus  # Include bonus functions
+gcc -Wall -Wextra -Werror test_libft.c -L. -lft -o test
+./test
 ```
 
 ---
@@ -398,18 +456,44 @@ Through this project, I gained deep understanding of:
 - ✅ **Memory Management**: Dynamic allocation with `malloc`, proper freeing, leak prevention
 - ✅ **Pointer Arithmetic**: Navigating memory addresses and dereferencing
 - ✅ **String Manipulation**: Buffer handling, null termination, edge cases
-- ✅ **Data Structures**: Implementing and manipulating linked lists
-- ✅ **Code Organization**: Creating reusable libraries with proper headers
-- ✅ **Makefile Creation**: Automated compilation with dependency management
-- ✅ **Edge Case Handling**: NULL pointers, empty strings, integer overflow
-- ✅ **The Norm**: Writing clean, standardized code following 42's coding style
+- ✅ **Data Structures**: Implementing and manipulating singly linked lists
+- ✅ **Makefile Creation**: Automated compilation, static library generation with `ar`
+- ✅ **Function Pointers**: Used in `ft_lstmap`, `ft_lstiter`, `ft_strmapi`
+- ✅ **Edge Case Handling**: NULL pointers, empty strings, integer overflow (INT_MIN)
+- ✅ **The Norm**: Writing clean, standardized code following 42's strict coding style
+- ✅ **Testing Strategies**: Creating comprehensive test mains for each function
 
-### Key Challenges
+### Key Implementation Challenges
 
-1. **Understanding `strlcpy` and `strlcat`**: These BSD functions have unique size-bounded behavior
-2. **Handling Overlapping Memory**: `ft_memmove` required careful implementation
-3. **Split Function**: Managing dynamic 2D arrays and proper memory allocation
-4. **Linked List Mapping**: Understanding function pointers and memory cleanup in `ft_lstmap`
+1. **`ft_split`**: Managing dynamic 2D arrays with proper memory allocation and error handling
+2. **`ft_memmove`**: Handling overlapping memory regions correctly (forward vs backward copy)
+3. **`ft_strlcpy` / `ft_strlcat`**: Understanding BSD-style size-bounded functions
+4. **`ft_lstmap`**: Implementing list mapping with error handling and cleanup using `del` function
+5. **`ft_itoa`**: Converting negative numbers (including INT_MIN: -2147483648)
+6. **`ft_memccpy`**: Copying until character found, returning correct pointer
+
+### Bonus Functions - Linked Lists
+
+The bonus introduces **singly linked lists** with 9 manipulation functions:
+
+**Key concepts learned:**
+- Dynamic node creation with `malloc`
+- Pointer-to-pointer manipulation (`t_list **`)
+- Function pointers for generic operations (`void (*f)(void *)`)
+- Memory cleanup with custom deleter functions
+- List traversal and transformation
+
+**Example: Creating a list**
+```c
+t_list *head = ft_lstnew("First");
+ft_lstadd_back(&head, ft_lstnew("Second"));
+ft_lstadd_back(&head, ft_lstnew("Third"));
+
+printf("List size: %d\n", ft_lstsize(head));  // Output: 3
+
+// Clean up
+ft_lstclear(&head, free);
+```
 
 ---
 
@@ -418,14 +502,16 @@ Through this project, I gained deep understanding of:
 This project strictly follows the **42 Norm** (Norminette v3):
 - ✅ Maximum 25 lines per function
 - ✅ Maximum 5 functions per file
-- ✅ No forbidden functions used
-- ✅ Proper variable declarations
-- ✅ No memory leaks
-- ✅ No segmentation faults or unexpected behavior
+- ✅ No forbidden functions (only `write`, `malloc`, `free`)
+- ✅ Proper variable declarations at function start
+- ✅ No memory leaks (tested with valgrind)
+- ✅ No segmentation faults or undefined behavior
 
 ---
 
 ## 📄 License
+
+MIT License - See [LICENSE](LICENSE) file for details.
 
 This project is part of the 42 School curriculum. Feel free to use and learn from this code, but please don't copy it for your own 42 projects. Understanding comes from doing it yourself! 🚀
 
@@ -433,11 +519,14 @@ This project is part of the 42 School curriculum. Feel free to use and learn fro
 
 ## 🔗 Related Projects
 
-This library is used extensively in my other 42 projects:
+This library is used extensively in other 42 projects:
 
-- [get_next_line](https://github.com/Z3n42/get_next_line) - Reading from file descriptors
-- [ft_printf](https://github.com/Z3n42/ft_printf) - Recreating printf
-- [pipex](https://github.com/Z3n42/pipex) - Unix pipes implementation
+- **[get_next_line](https://github.com/Z3n42/get_next_line)** - Line reading (doesn't use libft as per subject)
+- **[ft_printf](https://github.com/Z3n42/ft_printf)** - Formatted output (can integrate libft)
+- **[fdf](https://github.com/Z3n42/fdf)** - 3D wireframe (uses libft for utilities)
+- **pipex** - Unix pipes
+- **push_swap** - Sorting algorithm
+- **minishell** - Shell implementation
 
 ---
 
