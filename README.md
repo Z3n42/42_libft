@@ -22,6 +22,7 @@
 ## 📋 Table of Contents
 
 - [About the Project](#-about-the-project)
+- [Features](#-features)
 - [Installation](#%EF%B8%8F-installation)
 - [Usage](#-usage)
 - [Function Reference](#-function-reference)
@@ -49,6 +50,53 @@ C programming without access to standard library functions can be challenging. T
 - **Code organization** and library creation with Makefiles
 
 The completed library becomes a personal toolkit that can be expanded and reused throughout the 42 curriculum.
+
+---
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🔧 Standard Library Functions
+- String manipulation (`strlen`, `strcpy`, `strdup`, etc.)
+- Memory operations (`memset`, `memcpy`, `memmove`, etc.)
+- Character checks (`isalpha`, `isdigit`, `isascii`, etc.)
+- Type conversions (`atoi`)
+
+</td>
+<td width="50%">
+
+### 🚀 Additional Utilities
+- String operations (`substr`, `strjoin`, `strtrim`, `split`)
+- File descriptor output functions
+- Memory allocation with `calloc`
+- Function mapping (`strmapi`)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🔗 Bonus: Linked Lists
+- Node creation and deletion
+- List traversal and manipulation
+- Iteration and mapping functions
+- Dynamic list management
+
+</td>
+<td width="50%">
+
+### 📦 Compiled Library
+- Static library `libft.a`
+- Makefile with standard rules
+- Clean compilation (no relink)
+- Header file with all prototypes
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -89,7 +137,7 @@ After running `make`, you'll have a `libft.a` static library ready to use.
 
 ## 🚀 Usage
 
-### Including in Project
+### Including in Your Project
 
 1. **Copy libft to your project directory:**
 ```bash
@@ -182,7 +230,7 @@ Functions that replicate standard C library behavior (34 functions):
 </details>
 
 <details>
-<summary><b>Memory Functions (7 functions)</b></summary>
+<summary><b>Memory Functions (8 functions)</b></summary>
 
 | Function | Description | Prototype |
 |----------|-------------|-----------|
@@ -199,10 +247,10 @@ Functions that replicate standard C library behavior (34 functions):
 
 ### Part 2: Additional Functions
 
-Custom functions not present in the standard library (7 functions):
+Custom functions not present in the standard library (11 functions):
 
 <details>
-<summary><b>String Utilities & Conversions</b></summary>
+<summary><b>String Utilities & Conversions (7 functions)</b></summary>
 
 | Function | Description | Prototype |
 |----------|-------------|-----------|
@@ -212,6 +260,7 @@ Custom functions not present in the standard library (7 functions):
 | `ft_split` | Splits string by delimiter into array | `char **ft_split(char const *s, char c)` |
 | `ft_itoa` | Converts integer to string | `char *ft_itoa(int n)` |
 | `ft_strmapi` | Applies function to each character (indexed) | `char *ft_strmapi(char const *s, char (*f)(unsigned int, char))` |
+| `ft_striteri` | Applies function to each character (in-place) | `void ft_striteri(char *s, void (*f)(unsigned int, char*))` |
 
 </details>
 
@@ -297,6 +346,7 @@ typedef struct s_list
 │   ├── ft_split.c
 │   ├── ft_itoa.c
 │   ├── ft_strmapi.c
+│   ├── ft_striteri.c
 │   ├── ft_putchar_fd.c      # File descriptor output
 │   ├── ft_putstr_fd.c
 │   ├── ft_putendl_fd.c
@@ -314,19 +364,27 @@ typedef struct s_list
 │   └── ft_lstmap.c
 │
 ├── 📂 Tests/                 # Testing utilities (not graded)
-│   ├── Libtests/            # Custom test suite
-│   └── libft-unit-test/     # External unit tests
+│   ├── 📂 Libtests/         # Custom test suite
+│   │   ├── README.md
+│   │   ├── grademe.sh       # Automated test runner
+│   │   ├── deepthought      # Test checker
+│   │   └── tests/           # Individual test files
+│   └── 📂 libft-unit-test/  # External unit tests (alelievr)
+│       ├── Makefile
+│       ├── libft_test.c
+│       └── tests/
 │
 └── 📂 libftmain/            # Individual test mains for each function
     ├── atoimain.c
     ├── bzero main.c
     ├── memchrmain.c
+    ├── splitmain.c
     └── ...                  # 40+ test programs
 ```
 
 ### Makefile Details
 
-Makefile implements the following structure:
+The Makefile implements the following structure:
 
 ```makefile
 NAME = libft.a
@@ -334,11 +392,20 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 
-FILES = ft_memset ft_strrchr ft_putchar_fd ... (34 functions)
-FILES_B = ft_lstnew ft_lstadd_front ... (9 functions)
+# Mandatory functions (34 files)
+FILES = ft_memset ft_bzero ft_memcpy ft_memccpy ft_memmove ft_memchr ft_memcmp \
+        ft_strlen ft_strlcpy ft_strlcat ft_strchr ft_strrchr ft_strncmp ft_strnstr \
+        ft_atoi ft_isalpha ft_isdigit ft_isalnum ft_isascii ft_isprint \
+        ft_toupper ft_tolower ft_calloc ft_strdup ft_substr ft_strjoin ft_strtrim \
+        ft_split ft_itoa ft_strmapi ft_striteri ft_putchar_fd ft_putstr_fd \
+        ft_putendl_fd ft_putnbr_fd
 
-OBJS = *.o files from FILES
-OBJS_B = *.o files from FILES_B
+# Bonus functions (9 files)
+FILES_B = ft_lstnew ft_lstadd_front ft_lstsize ft_lstlast ft_lstadd_back \
+          ft_lstdelone ft_lstclear ft_lstiter ft_lstmap
+
+OBJS = $(FILES:=.o)
+OBJS_B = $(FILES_B:=.o)
 ```
 
 ### Make Rules
@@ -360,19 +427,30 @@ OBJS_B = *.o files from FILES_B
 
 ### Included Test Suites
 
-Repository includes **two testing frameworks** in the `Tests/` directory:
+The repository includes **two comprehensive testing frameworks** in the `Tests/` directory:
 
-#### 1. Libtests
+#### 1. Libtests (Custom Test Suite)
 ```bash
 cd Tests/Libtests
 ./grademe.sh
 ```
+
+Features:
+- Automated test runner with `grademe.sh`
+- `deepthought` checker for validation
+- Individual test files for each function
+- README with usage instructions
 
 #### 2. libft-unit-test (alelievr)
 ```bash
 cd Tests/libft-unit-test
 make
 ```
+
+Features:
+- Comprehensive unit tests
+- Makefile integration
+- Detailed error reporting
 
 ### Individual Function Tests
 
@@ -386,6 +464,10 @@ gcc -Wall -Wextra -Werror libftmain/atoimain.c ft_atoi.c -o test_atoi
 # Example: Test ft_split
 gcc -Wall -Wextra -Werror libftmain/splitmain.c ft_split.c libft.a -o test_split
 ./test_split
+
+# Example: Test ft_memchr
+gcc -Wall -Wextra -Werror libftmain/memchrmain.c ft_memchr.c -o test_memchr
+./test_memchr
 ```
 
 ### Recommended External Testers
@@ -413,7 +495,7 @@ cd libftTester && make
 int main(void)
 {
     // Test string functions
-    printf("ft_strlen("Hello"): %zu\n", ft_strlen("Hello"));
+    printf("ft_strlen(\"Hello\"): %zu\n", ft_strlen("Hello"));
 
     // Test memory functions
     char str[20];
@@ -451,14 +533,14 @@ gcc -Wall -Wextra -Werror test_libft.c -L. -lft -o test
 
 ## 💡 What I Learned
 
-Through this project, I gained deep understanding of:
+Through this project, deep understanding was gained in:
 
 - ✅ **Memory Management**: Dynamic allocation with `malloc`, proper freeing, leak prevention
 - ✅ **Pointer Arithmetic**: Navigating memory addresses and dereferencing
 - ✅ **String Manipulation**: Buffer handling, null termination, edge cases
 - ✅ **Data Structures**: Implementing and manipulating singly linked lists
 - ✅ **Makefile Creation**: Automated compilation, static library generation with `ar`
-- ✅ **Function Pointers**: Used in `ft_lstmap`, `ft_lstiter`, `ft_strmapi`
+- ✅ **Function Pointers**: Used in `ft_lstmap`, `ft_lstiter`, `ft_strmapi`, `ft_striteri`
 - ✅ **Edge Case Handling**: NULL pointers, empty strings, integer overflow (INT_MIN)
 - ✅ **The Norm**: Writing clean, standardized code following 42's strict coding style
 - ✅ **Testing Strategies**: Creating comprehensive test mains for each function
